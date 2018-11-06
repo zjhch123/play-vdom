@@ -7,6 +7,7 @@ module.exports = {
   },
   env: {
     browser: true,
+    jasmine: true
   },
   extends: 'standard',
   plugins: [

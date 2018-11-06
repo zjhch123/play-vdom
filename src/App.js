@@ -1,7 +1,7 @@
 import '@css/base.css';
 import '@css/style.scss';
-import el from './v-dom/element'
-import diff from './v-dom/diff'
+import el from '../lib/v-dom/element'
+import diff from '../lib/v-dom/diff'
 const svd = require('simple-virtual-dom')
 const standardDiff = svd.diff
 
