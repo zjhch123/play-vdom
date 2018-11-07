@@ -1,36 +1,45 @@
-import '@css/base.css';
-import '@css/style.scss';
 import el from '../lib/v-dom/element'
 import diff from '../lib/v-dom/diff'
-const svd = require('simple-virtual-dom')
-const standardDiff = svd.diff
-
+import patch from '../lib/v-dom/patch';
 
 // 这是为了更新html之后页面能自动刷新而写的。不要删
 if (process.env.NODE_ENV !== 'production') {
   require('./index.html')
 }
 
-const tree = el('div', {}, [
-  el('h1', { style: 'color: #45b97c' }, 'zjhch123!!!'),
-  el('h2', { style: 'color: #c7a252' }, 'zjhch456!!!'),
-  el('div', { style: 'color: #c7a252' }, [
-    el('span', { style: 'color: #009ad6' }, 'haha, '),
-    el('span', { style: 'color: #7bbfea' }, 'good boy!')
-  ]),
-])
+let list = [
+  {id: 1},
+  {id: 2},
+  {id: 3},
+  {id: 4},
+]
 
-const tree2 = el('div', { style: 'color: red' }, [
-  el('h1', { style: 'color: #45b97c' }, 'zjhch123!!'),
-  el('h2', { style: 'color: #c7a252' }, 'zjhch456!!!!'),
-  el('div', { style: 'color: #c7a253' }, [
-    el('span', { style: 'color: #009ad6' }, 'haha, '),
-    el('span', { style: 'color: #7bbfea' }, 'good boy!')
-  ]),
-])
+const tree = (list) => {
+  return (
+    <div>
+      <a href="javascript:;" style="color: #45b97c">zjhch123!!!</a>
+      <h2 style="color: #c7a252">zjhch456!!!</h2>
+      <div>
+        <span>haha, </span>
+        <span>good boy!</span>
+        <div>
+        {
+          list.map(i => (<span key={i.id}>{i.id}</span>))
+        }
+        </div>
+      </div>
+    </div>
+  )
+}
 
-console.log(diff(tree, tree2))
+const tree1 = tree(list)
+const root = tree1.render()
 
-console.log(standardDiff(tree, tree2))
+document.querySelector('.container').appendChild(root)
 
-document.querySelector('.container').appendChild(tree.render())
+setTimeout(() => {
+  const tree2 = tree([...list, {id: 777}, {id: 888}, {id: 999}])
+  const patches = diff(tree1, tree2)
+  console.log(patches)
+  patch(root, patches)
+}, 2000)

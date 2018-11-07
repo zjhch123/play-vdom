@@ -1,4 +1,4 @@
-import listDiff from '../../../lib/list-diff/list-diff'
+import listDiff, { makeKeyIndexAndFree } from '../../../lib/list-diff/list-diff'
 
 describe('diff', () => {
   it('can diff and get right result', () => {
@@ -41,5 +41,19 @@ describe('diff', () => {
     }
 
     expect(arr2).toEqual(simulator)
+  })
+})
+
+describe('makeKeyIndexAndFree', () => {
+  it('can make key index and free', () => {
+    const arr = [
+      {id: 4},
+      {id: 1},
+      {id: 6},
+      {id: 8},
+      {id: 3},
+    ];
+
+    expect(makeKeyIndexAndFree(arr, 'id')).toEqual({keyIndex: {4: 0, 1: 1, 6: 2, 8: 3, 3: 4}, free: []})
   })
 })
